@@ -67,6 +67,7 @@ Feature: View a content object
     When I click to view the document
     Then I should be taken back to the document page
     And I should see the details for the contact content block
+    And I should see the status of the latest edition of the block
     And I should see the contact created event on the timeline
 
   Scenario: GDS Editor views a content object using the content ID

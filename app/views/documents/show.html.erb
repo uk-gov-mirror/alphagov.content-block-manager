@@ -7,12 +7,19 @@
 <% end %>
 
 <div class="govuk-grid-row">
-  <div class="govuk-grid-column-three-quarters">
-    <h1 class="govuk-heading-xl">
+  <div class="govuk-grid-column-three-quarters govuk-!-margin-bottom-5">
+    <h1 class="govuk-heading-xl govuk-!-margin-bottom-1">
       <span class="govuk-caption-xl"><%= @document.schema.name %></span>
       <%= @document.title %>
     </h1>
+
+    <%= render(
+        Shared::DocumentStatusTagComponent.new(
+          document: @document,
+        ),
+      ) %>
   </div>
+
   <div class="govuk-grid-column-one-quarter content-block-manager-header--column-right">
       <%= render "govuk_publishing_components/components/button", {
         text: "Edit #{@document.block_type.humanize.downcase}",
