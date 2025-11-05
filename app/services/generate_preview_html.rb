@@ -16,6 +16,7 @@ class GeneratePreviewHtml
     uri = URI(frontend_path)
     nokogiri_html = html_snapshot_from_frontend(uri)
     update_local_link_paths(nokogiri_html)
+    update_local_form_actions(nokogiri_html, uri.scheme, uri.host)
     add_draft_style(nokogiri_html)
     update_css_hrefs(nokogiri_html)
     update_js_srcs(nokogiri_html)
@@ -72,6 +73,20 @@ private
 
       link[:href] = "#{url}&base_path=#{link[:href]}"
       link[:target] = "_parent"
+    end
+
+    nokogiri_html
+  end
+
+  def update_local_form_actions(nokogiri_html, scheme, host)
+    url = host_content_preview_form_handler_edition_path(id: edition.id, host_content_id: content_id, locale:)
+    nokogiri_html.css("main form").each do |form|
+      form[:action] = "#{url}&url=#{scheme}://#{host}#{form[:action]}&method=#{form[:method]}"
+      form[:target] = "_parent"
+      form[:method] = "post"
+      form.css("input").each do |input|
+        input[:name] = "body[#{input[:name]}]"
+      end
     end
 
     nokogiri_html

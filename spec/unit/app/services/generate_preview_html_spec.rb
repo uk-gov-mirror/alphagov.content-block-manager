@@ -132,6 +132,48 @@ RSpec.describe GeneratePreviewHtml do
     end
   end
 
+  describe "when the frontend response contains forms" do
+    let(:fake_body) do
+      "
+        <main>
+          <form action='/foo' method='get'>
+            <input type='radio' name='foo' />
+            <input type='text' name='bar' />
+          </form>
+        </main>
+      "
+    end
+
+    it "updates the form and input attributes" do
+      actual_content = GeneratePreviewHtml.new(
+        content_id: host_content_id,
+        edition: block_to_preview,
+        base_path: host_base_path,
+        locale: "en",
+      ).call
+
+      parsed_content = Nokogiri::HTML.parse(actual_content)
+
+      form = parsed_content.css("main form")[0]
+      inputs = form.css("input")
+
+      form_handler_path = host_content_preview_form_handler_edition_path(
+        id: block_to_preview.id,
+        host_content_id: host_content_id,
+        locale: "en",
+      )
+      expected_url = "#{Plek.website_root}/foo"
+      expected_action = "#{form_handler_path}&url=#{expected_url}&method=get"
+
+      expect(form[:action]).to eq(expected_action)
+      expect(form[:target]).to eq("_parent")
+      expect(form[:method]).to eq("post")
+
+      expect(inputs[0][:name]).to eq("body[foo]")
+      expect(inputs[1][:name]).to eq("body[bar]")
+    end
+  end
+
   describe "when the wrapper is a div" do
     let(:fake_body) do
       "<p>test</p><div class=\"content-embed content-embed__content_block_contact\" data-content-block=\"\" data-document-type=\"content_block_contact\" data-embed-code=\"embed-code\" data-content-id=\"#{preview_content_id}\">example@example.com</div>"
