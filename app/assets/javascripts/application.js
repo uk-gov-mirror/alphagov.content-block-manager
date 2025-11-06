@@ -12,6 +12,7 @@
 //= require components/govspeak-editor
 
 //= require ./modules/copy-embed-code
+//= require ./modules/host-content-iframe
 
 'use strict'
 window.GOVUK.approveAllCookieTypes()

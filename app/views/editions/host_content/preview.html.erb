@@ -13,6 +13,8 @@
 <hr class="govuk-section-break govuk-!-margin-bottom-8 govuk-section-break--visible">
 <div class="govuk-grid-row">
   <div class="govuk-grid-column-full">
-    <iframe id="preview" style="width:100%;height:80vh;" srcdoc="<%= @preview_content.html %>"></iframe>
+    <%= turbo_frame_tag "preview_frame_#{@edition.id}" do %>
+      <%= render "editions/host_content/iframe" %>
+    <% end %>
   </div>
 </div>
