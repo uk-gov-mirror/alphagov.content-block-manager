@@ -39,6 +39,24 @@ RSpec.describe Edition::Workflow, type: :model do
       edition.ready_for_2i!
       assert edition.awaiting_2i?
     end
+
+    describe "translations for tag labels and colours" do
+      it "finds a label for each state's tag" do
+        Edition.new.available_states.each do |state|
+          expect(I18n.t("edition.states.label.#{state}"))
+            .not_to match(/Translation missing/),
+                    "Translation not found for tag label for state '#{state}'"
+        end
+      end
+
+      it "finds a colour for each state's tag" do
+        Edition.new.available_states.each do |state|
+          expect(I18n.t("edition.states.colour.#{state}"))
+            .not_to match(/Translation missing/),
+                    "Translation not found for tag colour for state '#{state}'"
+        end
+      end
+    end
   end
 
   describe "validation" do

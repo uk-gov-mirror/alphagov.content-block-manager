@@ -141,6 +141,19 @@ en:
     values:
       true: "Yes"
       false: "No"
+    states:
+      label:
+        draft: Draft
+        awaiting_2i: Awaiting 2i
+        scheduled: Scheduled
+        published: Published
+        superseded: Superseded
+      colour:
+        draft: yellow
+        awaiting_2i: turquoise
+        scheduled: light-blue
+        published: green
+        superseded: orange
   date:
     formats:
       default: "%d %B %Y"
