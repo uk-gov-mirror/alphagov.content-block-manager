@@ -56,6 +56,18 @@ RSpec.describe Edition::Workflow, type: :model do
                     "Translation not found for tag colour for state '#{state}'"
         end
       end
+
+      it "finds only colours which are available in the 'design system'" do
+        available_colours = %w[grey green turquoise blue light-blue purple pink red orange yellow]
+
+        Edition.new.available_states.each do |state|
+          colour = I18n.t("edition.states.colour.#{state}")
+
+          expect(available_colours)
+            .to include(colour),
+                "Tag colour (#{colour}) for state '#{state}' is not available in Design System"
+        end
+      end
     end
   end
 
