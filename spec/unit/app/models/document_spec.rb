@@ -70,14 +70,49 @@ RSpec.describe Document do
   end
 
   describe "latest_edition" do
-    it "returns the latest edition" do
-      document = create(:document, :pension)
-      _first_edition = create(:edition, document:)
-      second_edition = create(:edition, :latest, document:)
+    let(:document) { create(:document, :pension) }
 
-      # this works because the factory has an after_create callback
-      # which is applied to the :latest "trait"!
-      expect(document.latest_edition).to eq(second_edition)
+    let(:latest_edition_1) { create(:edition, document: document) }
+    let(:latest_edition_2) { create(:edition, document: document) }
+
+    context "when the #latest_edition_id FK is set" do
+      before do
+        document.update!(latest_edition_id: latest_edition_1.id)
+      end
+
+      it "returns the associated edition" do
+        expect(document.reload.latest_edition).to eq(latest_edition_1)
+
+        document.update!(latest_edition_id: latest_edition_2.id)
+
+        expect(document.reload.latest_edition).to eq(latest_edition_2)
+      end
+    end
+
+    context "when the latest_edition_id FK is NOT set" do
+      before do
+        document.update!(latest_edition_id: nil)
+      end
+
+      it "returns nil" do
+        expect(document.reload.latest_edition).to be_nil
+      end
+    end
+
+    context "when an edition is assigned using latest_edition=" do
+      before do
+        document.latest_edition = latest_edition_1
+      end
+
+      it "does NOT set the given edition to be returned as #latest_edition" do
+        expect(document.latest_edition_id).to be_nil
+        expect(document.reload.latest_edition).to be_nil
+
+        document.latest_edition = latest_edition_2
+
+        expect(document.latest_edition_id).to be_nil
+        expect(document.reload.latest_edition).to be_nil
+      end
     end
   end
 
