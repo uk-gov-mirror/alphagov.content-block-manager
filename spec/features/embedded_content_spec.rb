@@ -162,7 +162,7 @@ RSpec.describe "Embedded content", type: :feature do
   end
 
   describe "When showing a document" do
-    let(:edition) { create(:edition, :contact, lead_organisation_id: organisation.id) }
+    let(:edition) { create(:edition, :contact, :latest, lead_organisation_id: organisation.id) }
     let(:document) { edition.document }
 
     before do

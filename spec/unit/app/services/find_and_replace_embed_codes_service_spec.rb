@@ -1,12 +1,12 @@
 RSpec.describe FindAndReplaceEmbedCodesService do
   it "finds and replaces embed codes" do
     document_1 = create(:document, :pension, content_id_alias: "something")
-    edition_1 = create(:edition, :pension, state: "published", document: document_1)
+    edition_1 = create(:edition, :pension, :latest, state: "published", document: document_1)
     document_1.latest_edition = edition_1
     document_1.save!
 
     document_2 = create(:document, :pension, content_id_alias: "something-else")
-    edition_2 = create(:edition, :pension, state: "published", document: document_2)
+    edition_2 = create(:edition, :pension, :latest, state: "published", document: document_2)
     document_2.latest_edition = edition_2
     document_2.save!
 

@@ -54,7 +54,7 @@ RSpec.describe CreateEditionService do
 
     describe "when a document id is provided" do
       let(:document) { create(:document, :pension) }
-      let!(:previous_edition) { create(:edition, :pension, document:) }
+      let!(:previous_edition) { create(:edition, :pension, :latest, document:) }
 
       it "does not create a new document" do
         expect {
@@ -78,7 +78,7 @@ RSpec.describe CreateEditionService do
       describe "when a previous edition has details that are not provided in the params" do
         let!(:previous_edition) do
           create(
-            :edition, :pension,
+            :edition, :pension, :latest,
             document:,
             details: { "foo" => "Old text", "bar" => "Old text", "something" => { "else" => { "is" => "here" } } }
           )

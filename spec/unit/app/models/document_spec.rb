@@ -73,8 +73,10 @@ RSpec.describe Document do
     it "returns the latest edition" do
       document = create(:document, :pension)
       _first_edition = create(:edition, document:)
-      second_edition = create(:edition, document:)
+      second_edition = create(:edition, :latest, document:)
 
+      # this works because the factory has an after_create callback
+      # which is applied to the :latest "trait"!
       expect(document.latest_edition).to eq(second_edition)
     end
   end
@@ -147,7 +149,7 @@ RSpec.describe Document do
     it "returns the latest edition's title" do
       document = create(:document, :pension)
       _oldest_edition = create(:edition, document:)
-      latest_edition = create(:edition, document:, title: "I am the latest edition")
+      latest_edition = create(:edition, :latest, document:, title: "I am the latest edition")
 
       expect(document.title).to eq(latest_edition.title)
     end

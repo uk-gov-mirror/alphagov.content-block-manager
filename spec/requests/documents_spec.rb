@@ -29,6 +29,7 @@ RSpec.describe "Documents", type: :request do
       second_edition = create(
         :edition,
         :contact,
+        :latest,
         details: { "email_address" => "second_edition@example.com" },
         document: document,
         lead_organisation_id: organisation.id,
@@ -45,6 +46,7 @@ RSpec.describe "Documents", type: :request do
       document.latest_edition = create(
         :edition,
         :contact,
+        :latest,
         details: { "email_address" => "live_edition@example.com" },
         document: document,
         lead_organisation_id: organisation.id,
@@ -114,7 +116,7 @@ RSpec.describe "Documents", type: :request do
   end
 
   describe "#show" do
-    let(:edition) { create(:edition, :contact, lead_organisation_id: organisation.id) }
+    let(:edition) { create(:edition, :contact, :latest, lead_organisation_id: organisation.id) }
     let(:document) { edition.document }
 
     before do

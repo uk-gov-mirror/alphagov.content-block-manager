@@ -32,11 +32,13 @@ FactoryBot.define do
       end
     end
 
-    after(:create) do |edition, _evaluator|
-      document_update_params = {
-        latest_edition_id: edition.id,
-      }
-      edition.document.update!(document_update_params)
+    trait :latest do
+      after(:create) do |edition, _evaluator|
+        document_update_params = {
+          latest_edition_id: edition.id,
+        }
+        edition.document.update!(document_update_params)
+      end
     end
   end
 end
