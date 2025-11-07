@@ -16,7 +16,7 @@ unless Rails.env.production?
   RSpec::Core::RakeTask.new(:spec)
 
   Cucumber::Rake::Task.new(:cucumber) do |t|
-    t.cucumber_opts = "--format pretty"
+    t.cucumber_opts = ["--format pretty"]
   end
 
   Rake::Task[:default].clear if Rake::Task.task_defined?(:default)

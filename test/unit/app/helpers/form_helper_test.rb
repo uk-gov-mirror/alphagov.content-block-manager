@@ -132,7 +132,7 @@ class FormHelperTest < ActionView::TestCase
         let(:details) { nil }
 
         it "returns nil if there is no default value" do
-          assert_equal nil, value_for_field(details: details, field: field1, populate_with_defaults:)
+          assert_nil value_for_field(details: details, field: field1, populate_with_defaults:)
         end
 
         it "returns the default value for the field" do
@@ -149,18 +149,18 @@ class FormHelperTest < ActionView::TestCase
       end
 
       it "returns nil for the field if not present" do
-        assert_equal nil, value_for_field(details: details, field: field2, populate_with_defaults:)
+        assert_nil value_for_field(details: details, field: field2, populate_with_defaults:)
       end
 
       describe "when details is nil" do
         let(:details) { nil }
 
         it "returns nil if there is no default value" do
-          assert_equal nil, value_for_field(details: details, field: field1, populate_with_defaults:)
+          assert_nil value_for_field(details: details, field: field1, populate_with_defaults:)
         end
 
         it "returns nil if there is a default value" do
-          assert_equal nil, value_for_field(details: details, field: field2, populate_with_defaults:)
+          assert_nil value_for_field(details: details, field: field2, populate_with_defaults:)
         end
       end
     end
