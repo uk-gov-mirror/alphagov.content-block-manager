@@ -53,6 +53,10 @@ When("I click on a link within the frame") do
 end
 
 Then("I should see the content of the linked page") do
+  Capybara.current_session.driver.with_playwright_page do |page|
+    page.wait_for_load_state(state: "networkidle")
+  end
+
   within_frame "preview" do
     assert_text "other page"
     assert_text @email_address
