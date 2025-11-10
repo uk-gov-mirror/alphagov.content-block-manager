@@ -1,4 +1,4 @@
-When("I click on the first host document") do
+Given("there is a host document with a link") do
   @current_host_document = @dependent_content.first
   embed_code = "{{embed:#{@current_host_document['block_type']}:#{@current_host_document['content_id']}}}"
 
@@ -33,7 +33,11 @@ When("I click on the first host document") do
     status: 200,
     body: "<head></head><body><h1>#{@current_host_document['title']}</h1><p>other page</p>#{@content_block.render(embed_code)}</body>",
   )
+end
 
+
+
+When("I click on the first host document") do
   click_on @current_host_document["title"]
 end
 

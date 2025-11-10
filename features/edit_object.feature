@@ -126,6 +126,7 @@ Feature: Edit a content object
 
   @javascript
   Scenario: GDS editor can preview a host document
+    Given there is a host document with a link
     When I revisit the edit page
     And I save and continue
     When I click on the first host document
