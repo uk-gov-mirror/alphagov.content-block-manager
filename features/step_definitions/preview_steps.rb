@@ -35,7 +35,66 @@ Given("there is a host document with a link") do
   )
 end
 
+Given("there is a host document that is a smart answer") do
+  @current_host_document = @dependent_content.first
+  embed_code = "{{embed:#{@current_host_document['block_type']}:#{@current_host_document['content_id']}}}"
 
+  stub_request(
+    :get,
+    "#{Plek.find('publishing-api')}/v2/content/#{@current_host_document['host_content_id']}",
+  ).with(query: { locale: "en" }).to_return(
+    status: 200,
+    body: {
+      details: {
+        body: "<p>title</p>",
+      },
+      title: @current_host_document["title"],
+      document_type: "smartanswer",
+      base_path: @current_host_document["base_path"],
+      publishing_app: "test",
+    }.to_json,
+  )
+
+  page_body = <<~HTML
+    <html>
+      <head></head>
+      <body><h1>#{@current_host_document['title']}</h1>
+      <main>
+        <form action="/smart-answer" method="post">
+          <input type="text" name="name" id="name" />
+          <button type="submit">Submit</button>
+        </form>
+      </main>
+      </body>
+    </html>
+  HTML
+
+  stub_request(
+    :get,
+    "#{Plek.website_root}#{@current_host_document['base_path']}",
+  ).to_return(
+    status: 200,
+    body: page_body,
+  )
+
+  stub_request(:post, "#{Plek.website_root}/smart-answer")
+    .to_return(status: 302, headers: { location: "#{Plek.website_root}/smart-answer/result" })
+
+  stub_request(
+    :get,
+    "#{Plek.website_root}/smart-answer/result",
+  ).to_return(
+    status: 200,
+    body: "<head></head><body><h1>#{@current_host_document['title']}</h1><p>other page</p>#{@content_block.render(embed_code)}</body>",
+  )
+end
+
+When("I complete the smart answer form") do
+  within_frame "preview" do
+    fill_in "name", with: "someone"
+    click_button "Submit"
+  end
+end
 
 When("I click on the first host document") do
   click_on @current_host_document["title"]
