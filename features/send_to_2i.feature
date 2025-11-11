@@ -34,6 +34,9 @@ Feature: Editor sends edition to 2i
     # And I have a link to published edition
     # And I have a link to delete the edition
 
+    When I opt to send the edition to 2i
+    Then I see that the edition is in awaiting_2i state
+
   Scenario: Send to 2i from review step in workflow
     When I visit the Content Block Manager home page
     And I click to view the document
@@ -41,3 +44,6 @@ Feature: Editor sends edition to 2i
 
     When I follow the workflow steps through to the final review step
     Then I see a principal call to action of 'Send to 2i'
+
+    When I opt to send the edition to 2i
+    Then I see that the edition is in awaiting_2i state

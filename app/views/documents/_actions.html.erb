@@ -1,6 +1,7 @@
 <ul class="govuk-list govuk-!-text-align-centre">
   <li>
     <%= form_tag(edition_status_transitions_path(document.most_recent_edition), method: :post) do %>
+      <%= hidden_field_tag :transition, :ready_for_2i %>
       <%= render "govuk_publishing_components/components/button", {
         text: "Send to 2i",
         type: "submit",

@@ -18,6 +18,10 @@ Then("I see a secondary call to action of 'Edit pension'") do
   )
 end
 
+When("I opt to send the edition to 2i") do
+  click_button "Send to 2i"
+end
+
 def create_new_edition
   click_link("Edit pension")
   expect(page).to have_content("Edit pension")

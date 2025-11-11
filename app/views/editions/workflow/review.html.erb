@@ -89,6 +89,7 @@
         <div>
           <% if pre_release_features? %>
             <%= form_tag(edition_status_transitions_path(@edition), method: :post) do %>
+              <%= hidden_field_tag :transition, :ready_for_2i %>
               <%= render "govuk_publishing_components/components/button", {
                 text: "Send to 2i",
                 type: "submit",
