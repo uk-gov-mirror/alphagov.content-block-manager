@@ -1,4 +1,47 @@
 RSpec.describe ApplicationHelper, type: :helper do
+  # include ApplicationController::HelperMethods
+  describe "pre_release_features?" do
+    before do
+      # As #current_user is included by Devise as a *controller* helper it's
+      # a little fiddly to stub
+      def helper.current_user
+        FactoryBot.build(:user)
+      end
+    end
+
+    context "when we're in the production environment" do
+      before do
+        allow(GovukPublishingComponents::AppHelpers::Environment).to receive(
+          :current_acceptance_environment,
+        ).and_return("production")
+      end
+
+      it "returns false" do
+        expect(helper.pre_release_features?).to be false
+      end
+    end
+
+    context "when the logged-in user has PRE_RELEASE_FEATURES_PERMISSION set" do
+      before do
+        def helper.current_user
+          FactoryBot.build(:user).tap { |u| u.permissions << "pre_release_features" }
+        end
+      end
+
+      it "returns true" do
+        expect(helper.pre_release_features?).to be true
+      end
+    end
+
+    context "when the ?pre_release_features=true url params has been passed" do
+      before { controller.params = { pre_release_features: "true" } }
+
+      it "returns true" do
+        expect(helper.pre_release_features?).to be true
+      end
+    end
+  end
+
   describe "#get_content_id" do
     it "returns nil if edition is nil" do
       expect(get_content_id(nil)).to be_nil

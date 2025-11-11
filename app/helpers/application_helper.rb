@@ -3,6 +3,16 @@ require "record_tag_helper/helper"
 module ApplicationHelper
   include ActionView::Helpers::RecordTagHelper
 
+  def pre_release_features?
+    env = GovukPublishingComponents::AppHelpers::Environment.current_acceptance_environment
+    return false if env == "production"
+
+    return true if current_user.has_permission?(User::Permissions::PRE_RELEASE_FEATURES_PERMISSION)
+    return true if params[:pre_release_features] == "true"
+
+    false
+  end
+
   def get_content_id(edition)
     return if edition.nil?
 

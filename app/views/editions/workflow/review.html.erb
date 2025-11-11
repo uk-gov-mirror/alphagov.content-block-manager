@@ -98,7 +98,7 @@
             },
           } %>
         </div>
-        <% if current_user.has_permission?(User::Permissions::PRE_RELEASE_FEATURES_PERMISSION) %>
+        <% if pre_release_features? %>
           <div>
             <%= render "govuk_publishing_components/components/button", {
               text: "Save as draft",
