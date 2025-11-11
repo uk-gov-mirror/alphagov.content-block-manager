@@ -17,6 +17,11 @@ Given(/^I have the "(.*?)" permission$/) do |perm|
   @user.save!
 end
 
+Given("I have the PRE_RELEASE_FEATURES authorisation") do
+  @user.permissions << User::Permissions::PRE_RELEASE_FEATURES_PERMISSION
+  @user.save!
+end
+
 Around("@use_real_sso") do |_scenario, block|
   current_sso_env = ENV["GDS_SSO_MOCK_INVALID"]
   ENV["GDS_SSO_MOCK_INVALID"] = "1"

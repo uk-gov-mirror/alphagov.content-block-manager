@@ -1,3 +1,14 @@
+Given("a pension content block has been drafted") do
+  @content_block = create(
+    :edition,
+    :pension,
+    details: { description: "Some text" },
+    creator: @user,
+    lead_organisation_id: @organisation.id,
+    title: "My pension",
+  )
+end
+
 Given("a pension content block has been created") do
   @content_blocks ||= []
   @content_block = create(
