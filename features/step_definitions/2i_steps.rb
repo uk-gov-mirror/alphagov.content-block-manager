@@ -2,7 +2,7 @@ When("I follow the workflow steps through to the final review step") do
   create_new_edition
   complete_note_step
   complete_change_note_step
-  complete_scheduling_step(choice: "publish_now")
+  complete_scheduling_step
   expect(page).to have_content("Review pension")
 end
 
@@ -35,7 +35,7 @@ def complete_change_note_step
   click_button("Save and continue")
 end
 
-def complete_scheduling_step(choice: "publish_now")
+def complete_scheduling_step
   expect(page).to have_content("Select publish date")
   choose("Publish the edit now")
   click_button("Save and continue")
