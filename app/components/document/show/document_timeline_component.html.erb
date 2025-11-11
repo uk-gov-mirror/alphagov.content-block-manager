@@ -5,7 +5,7 @@
     <%= render Document::Show::DocumentTimeline::TimelineItemComponent.new(
       version:,
       schema:,
-      is_first_published_version: version.id == first_published_version.id,
+      is_first_published_version: version.id == first_published_version&.id,
       is_latest: i == 0,
     ) %>
   <% end %>
