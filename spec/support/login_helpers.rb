@@ -15,4 +15,7 @@ end
 RSpec.configure do |config|
   config.include LoginHelpers, type: :request
   config.include LoginHelpers, type: :feature
+  config.before(:each, type: :controller) do
+    request.env["warden"] = double(authenticate!: false, authenticated?: false, user: nil)
+  end
 end
