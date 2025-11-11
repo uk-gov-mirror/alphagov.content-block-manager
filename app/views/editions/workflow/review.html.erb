@@ -88,6 +88,7 @@
       <div class="govuk-button-group govuk-!-margin-bottom-6">
         <div>
           <% if pre_release_features? %>
+            <%= render Shared::TransitionButtonComponent.new(edition: @edition, transition: :ready_for_2i) %>
             <%= form_tag(edition_status_transitions_path(@edition), method: :post) do %>
               <%= hidden_field_tag :transition, :ready_for_2i %>
               <%= render "govuk_publishing_components/components/button", {
