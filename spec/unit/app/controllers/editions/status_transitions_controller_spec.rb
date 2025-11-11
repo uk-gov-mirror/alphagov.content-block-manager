@@ -13,13 +13,13 @@ RSpec.describe Editions::StatusTransitionsController, type: :controller do
     end
 
     it "retrieves the given edition" do
-      post :create, params: { id: 123 }
+      post :create, params: { id: 123, transition: :ready_for_2i }
 
       expect(Edition).to have_received(:find).with("123")
     end
 
     it "attempts to transition the given edition to the 'awaiting_2i' state" do
-      post :create, params: { id: 123 }
+      post :create, params: { id: 123, transition: :ready_for_2i }
 
       expect(edition).to have_received(:ready_for_2i!)
     end
@@ -31,7 +31,7 @@ RSpec.describe Editions::StatusTransitionsController, type: :controller do
       end
 
       it "redirects to the show page" do
-        post :create, params: { id: 123 }
+        post :create, params: { id: 123, transition: :ready_for_2i }
 
         expect(response).to redirect_to(document_path(edition.document))
       end
@@ -39,7 +39,7 @@ RSpec.describe Editions::StatusTransitionsController, type: :controller do
       it "shows a success message" do
         expected_success_message = "Edition 123 has been moved into state 'awaiting_2i'"
 
-        post :create, params: { id: 123 }
+        post :create, params: { id: 123, transition: :ready_for_2i }
 
         expect(assigns(:result)).to eq(
           OpenStruct.new(
@@ -61,7 +61,7 @@ RSpec.describe Editions::StatusTransitionsController, type: :controller do
       end
 
       it "redirects to the show page" do
-        post :create, params: { id: 123 }
+        post :create, params: { id: 123, transition: :ready_for_2i }
 
         expect(response).to redirect_to(document_path(456))
       end
@@ -70,13 +70,27 @@ RSpec.describe Editions::StatusTransitionsController, type: :controller do
         expected_failure_message = "Error: we can not change the status of this edition. " \
           "Can't fire event `ready_for_2i` in current state `awaiting_2i` for `Edition` with ID 123 "
 
-        post :create, params: { id: 123 }
+        post :create, params: { id: 123, transition: :ready_for_2i }
 
         expect(assigns(:result)).to eq(
           OpenStruct.new(
             outcome: :failure,
             message: expected_failure_message,
           ),
+        )
+      end
+    end
+
+    context "when the transition requested is not recognised" do
+      before do
+      end
+
+      it "raises an UnknownTransitionError" do
+        expect {
+          post :create, params: { id: 123, transition: :unknown_transition }
+        }.to raise_error(
+          Editions::StatusTransitionsController::UnknownTransitionError,
+          "Transition event 'unknown_transition' is not recognised'",
         )
       end
     end
