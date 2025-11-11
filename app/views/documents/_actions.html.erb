@@ -1,0 +1,21 @@
+<ul class="govuk-list govuk-!-text-align-centre">
+  <li>
+    <%= form_tag(edition_status_transitions_path(document.most_recent_edition), method: :post) do %>
+      <%= render "govuk_publishing_components/components/button", {
+        text: "Send to 2i",
+        type: "submit",
+        inline_layout: false,
+        margin_bottom: 3,
+      } %>
+    <% end %>
+  </li>
+
+  <li>
+    <%= render "govuk_publishing_components/components/button", {
+      text: "Edit #{document.block_type.humanize.downcase}",
+      href: new_document_edition_path(document),
+      secondary_solid: true,
+      inline_layout: false,
+    } %>
+  </li>
+</ul>
