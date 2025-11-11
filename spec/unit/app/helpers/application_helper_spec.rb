@@ -1,24 +1,20 @@
-require "test_helper"
-
-class ApplicationHelperTest < ActionView::TestCase
-  extend Minitest::Spec::DSL
-
+RSpec.describe ApplicationHelper, type: :helper do
   describe "#get_content_id" do
     it "returns nil if edition is nil" do
-      assert_nil get_content_id(nil)
+      expect(get_content_id(nil)).to be_nil
     end
 
     it "returns nil if edition does not respond to `content_id`" do
-      edition = stub("edition")
-      edition.stubs(:respond_to?).with("content_id").returns(false)
+      edition = double("edition")
+      allow(edition).to receive(:respond_to?).with("content_id").and_return(false)
 
-      assert_nil get_content_id(edition)
+      expect(get_content_id(edition)).to be_nil
     end
 
     it "returns the content_id if present" do
       content_id = SecureRandom.uuid
-      edition = stub("edition", content_id:)
-      assert_equal get_content_id(edition), content_id
+      edition = double("edition", content_id:)
+      expect(get_content_id(edition)).to eq(content_id)
     end
   end
 
@@ -31,7 +27,7 @@ class ApplicationHelperTest < ActionView::TestCase
         office
         unlikely
       ].each do |word|
-        assert_equal add_indefinite_article(word), "an #{word}"
+        expect(add_indefinite_article(word)).to eq("an #{word}")
       end
     end
 
@@ -43,7 +39,7 @@ class ApplicationHelperTest < ActionView::TestCase
         flag
         goat
       ].each do |word|
-        assert_equal add_indefinite_article(word), "a #{word}"
+        expect(add_indefinite_article(word)).to eq("a #{word}")
       end
     end
   end
@@ -52,20 +48,24 @@ class ApplicationHelperTest < ActionView::TestCase
     let(:user) { build(:user) }
 
     it "links to an author if set" do
-      assert_equal linked_author(user), link_to(user.name, user_path(user.uid), {})
+      expect(linked_author(user)).to eq(link_to(user.name, user_path(user.uid), {}))
     end
 
     it "passes link options to link_to" do
-      assert_equal linked_author(user, { class: "my-link" }), link_to(user.name, user_path(user.uid), { class: "my-link" })
+      expect(
+        linked_author(user, { class: "my-link" }),
+      ).to eq(
+        link_to(user.name, user_path(user.uid), { class: "my-link" }),
+      )
     end
 
     it "returns an unlinked user name if the user does not have a uuid" do
       user.uid = nil
-      assert_equal linked_author(user), user.name
+      expect(linked_author(user)).to eq(user.name)
     end
 
     it "returns a dash if user is not set" do
-      assert_equal linked_author(nil), "-"
+      expect(linked_author(nil)).to eq("-")
     end
   end
 
@@ -73,7 +73,7 @@ class ApplicationHelperTest < ActionView::TestCase
     let(:organisations) { build_list(:organisation, 3) }
 
     before do
-      Organisation.stubs(:all).returns(organisations)
+      allow(Organisation).to receive(:all).and_return(organisations)
     end
 
     it "returns all organisations" do
@@ -95,7 +95,7 @@ class ApplicationHelperTest < ActionView::TestCase
         },
       ]
 
-      assert_equal expected, taggable_organisations_container([])
+      expect(taggable_organisations_container([])).to eq(expected)
     end
 
     it "marks selected organisations" do
@@ -117,7 +117,7 @@ class ApplicationHelperTest < ActionView::TestCase
         },
       ]
 
-      assert_equal expected, taggable_organisations_container([organisations[2].id])
+      expect(taggable_organisations_container([organisations[2].id])).to eq(expected)
     end
   end
 end
