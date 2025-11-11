@@ -5,11 +5,9 @@ class Editions::StatusTransitionsController < BaseController
     @edition = Edition.find(params[:id])
     begin
       attempt_transition!(transition: params.fetch(:transition))
-      success_message = "Edition #{@edition.id} has been moved into state '#{@edition.state}'"
-      @result = OpenStruct.new(outcome: :success, message: success_message)
+      handle_success
     rescue Transitions::InvalidTransition => e
-      error_message = "Error: we can not change the status of this edition. #{e.message}"
-      @result = OpenStruct.new(outcome: :failure, message: error_message)
+      handle_failure(e)
     ensure
       redirect_to document_path(@edition.document)
     end
@@ -24,5 +22,19 @@ private
     else
       raise(UnknownTransitionError, "Transition event '#{transition}' is not recognised'")
     end
+  end
+
+  def handle_success
+    @result = OpenStruct.new(
+      outcome: :success,
+      message: "Edition #{@edition.id} has been moved into state '#{@edition.state}'",
+    )
+  end
+
+  def handle_failure(error)
+    @result = OpenStruct.new(
+      outcome: :failure,
+      message: "Error: we can not change the status of this edition. #{error.message}",
+    )
   end
 end
