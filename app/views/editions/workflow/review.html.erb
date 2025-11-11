@@ -87,16 +87,27 @@
     <div class="govuk-grid-column-full">
       <div class="govuk-button-group govuk-!-margin-bottom-6">
         <div>
-          <%= render "govuk_publishing_components/components/button", {
-            text: button_text_submit_for(@edition),
-            name: "save_action",
-            value: save_action_value_for(@edition),
-            type: "submit",
-            form: "review",
-            data_attributes: {
-              "testid": "submit-button",
-            },
-          } %>
+          <% if pre_release_features? %>
+            <%= form_tag(edition_status_transitions_path(@edition), method: :post) do %>
+              <%= render "govuk_publishing_components/components/button", {
+                text: "Send to 2i",
+                type: "submit",
+                inline_layout: false,
+                margin_bottom: 3,
+              } %>
+            <% end %>
+          <% else %>
+            <%= render "govuk_publishing_components/components/button", {
+              text: button_text_submit_for(@edition),
+              name: "save_action",
+              value: save_action_value_for(@edition),
+              type: "submit",
+              form: "review",
+              data_attributes: {
+                "testid": "submit-button",
+              },
+            } %>
+          <% end %>
         </div>
         <% if pre_release_features? %>
           <div>
