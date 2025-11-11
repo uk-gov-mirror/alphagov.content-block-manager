@@ -40,6 +40,9 @@ Rails.application.routes.draw do
         end
       end
 
+      # State transitions
+      resources :edition_status_transitions, only: [:create], controller: "editions/status_transition"
+
       # Embedded object actions
       get "embedded-objects/(:object_type)/new", to: "editions/embedded_objects#new", as: :new_embedded_object
       post "embedded-objects", to: "editions/embedded_objects#new_embedded_objects_options_redirect", as: :new_embedded_objects_options_redirect
