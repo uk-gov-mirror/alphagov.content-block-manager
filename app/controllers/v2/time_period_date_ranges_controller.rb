@@ -1,6 +1,6 @@
 module V2
   class TimePeriodDateRangesController < ApplicationController
-    before_action :set_edition
+    before_action :set_edition, :set_document
 
     def edit; end
 
@@ -27,6 +27,10 @@ module V2
 
     def set_edition
       @edition = V2::TimePeriodEdition.find(params[:time_period_edition_id])
+    end
+
+    def set_document
+      @document = @edition.document
     end
 
     def edition_params

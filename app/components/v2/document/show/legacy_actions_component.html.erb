@@ -12,7 +12,7 @@
     <% else %>
       <%= render "govuk_publishing_components/components/button", {
         text: draft? ? I18n.t("v2.document.show.buttons.finalised_in_draft") : I18n.t("v2.document.show.buttons.finalised_not_in_draft"),
-        href: edit_v2_time_period_edition_path(@edition),
+        href: edit_v2_document_edition_path(@document, @edition),
         secondary_solid: draft? ? false : true,
         inline_layout: false,
       } %>

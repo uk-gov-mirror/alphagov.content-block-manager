@@ -1,7 +1,7 @@
 <% content_for :title, "Edit time period block" %>
 <% content_for :back_link,
    render("govuk_publishing_components/components/back_link", {
-     href: edit_v2_time_period_edition_path(@edition),
+     href: edit_v2_document_edition_path(@document, @edition),
    }) %>
 
  <% if @error_summary_errors %>

@@ -38,7 +38,7 @@ end
 
 Then("I have the ability to edit the draft edition") do
   button_text = @document_state == "draft" ? I18n.t("v2.document.show.buttons.finalised_in_draft") : I18n.t("v2.document.show.buttons.finalised_not_in_draft")
-  should_see_document_button(button_text, href: edit_v2_time_period_edition_path(@document.most_recent_edition))
+  should_see_document_button(button_text, href: edit_v2_document_edition_path(@document, @document.most_recent_edition))
 end
 
 And("I have the ability to view the current published edition [not currently functional]") do

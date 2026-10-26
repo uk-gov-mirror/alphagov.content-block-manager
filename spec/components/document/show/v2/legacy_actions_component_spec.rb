@@ -92,7 +92,7 @@ RSpec.describe V2::Document::Show::LegacyActionsComponent, type: :component do
 
           it "offers a secondary 'Edit draft' button to edit the current draft" do
             expect(page).to have_css(
-              ".actions a.govuk-button--secondary[href='/v2/time_period_editions/123/edit']",
+              ".actions a.govuk-button--secondary[href='/v2/documents/456/editions/123/edit']",
               text: I18n.t("v2.document.show.buttons.finalised_not_in_draft"),
             )
           end
@@ -110,7 +110,7 @@ RSpec.describe V2::Document::Show::LegacyActionsComponent, type: :component do
 
       it "offers a 'Complete draft' button to edit the current draft" do
         expect(page).to have_css(
-          ".actions a.govuk-button[href='/v2/time_period_editions/123/edit']",
+          ".actions a.govuk-button[href='/v2/documents/456/editions/123/edit']",
           text: I18n.t("v2.document.show.buttons.finalised_in_draft"),
         )
       end

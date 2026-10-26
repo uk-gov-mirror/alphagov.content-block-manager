@@ -3,7 +3,7 @@ When("I am viewing the form to create a new Time Period Edition") do
 end
 
 When("I am viewing the form to update an existing Time Period Edition") do
-  visit edit_v2_time_period_edition_path(@time_period_edition)
+  visit edit_v2_document_edition_path(@time_period_edition.document, @time_period_edition)
 end
 
 When("I fill the Time Period Edition details correctly") do

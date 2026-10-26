@@ -1,10 +1,11 @@
 class Edition::Show::V2::ReviewSummaryCardComponent < ViewComponent::Base
   def initialize(edition:)
     @edition = edition
+    @document = edition.document
   end
 
   def block_name
-    @edition.document.block_type.humanize
+    @document.block_type.humanize
   end
 
   def title
@@ -24,7 +25,7 @@ class Edition::Show::V2::ReviewSummaryCardComponent < ViewComponent::Base
     [
       {
         label: "Edit",
-        href: edit_v2_time_period_edition_path(@edition),
+        href: edit_v2_document_edition_path(@document, @edition),
       },
     ]
   end

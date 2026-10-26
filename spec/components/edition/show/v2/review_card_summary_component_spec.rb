@@ -47,7 +47,7 @@ RSpec.describe Edition::Show::V2::ReviewSummaryCardComponent, type: :component d
 
   describe "#summary_card_actions" do
     it "generates the correct edit link hash" do
-      allow(component).to receive(:edit_v2_time_period_edition_path).with(edition).and_return("/v2/editions/123/edit")
+      allow(component).to receive(:edit_v2_document_edition_path).with(document, edition).and_return("/v2/editions/123/edit")
 
       expect(component.summary_card_actions).to eq([
         { label: "Edit", href: "/v2/editions/123/edit" },
