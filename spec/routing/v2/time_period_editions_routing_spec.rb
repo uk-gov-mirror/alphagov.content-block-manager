@@ -52,6 +52,8 @@ RSpec.describe "V2 time period editions routing", type: :routing do
           expect(get: "/v2/time_period_editions/5678").not_to be_routable
           expect(delete: "/v2/time_period_editions/5678").not_to be_routable
           expect(get: "/v2/time_period_editions/5678/edit").not_to be_routable
+          expect(put: "/v2/time_period_editions/5678").not_to be_routable
+          expect(patch: "/v2/time_period_editions/5678").not_to be_routable
         end
 
         it "routes 'v2/time_period_editions/new' to 'v2/time_period_editions#new'" do
@@ -60,11 +62,6 @@ RSpec.describe "V2 time period editions routing", type: :routing do
 
         it "routes 'v2/time_period_editions' to 'v2/time_period_editions#create'" do
           expect(post: "/v2/time_period_editions").to route_to("v2/time_period_editions#create")
-        end
-
-        it "routes 'v2/documents/:document_id/editions/:id' to 'v2/time_period_editions#update'" do
-          expect(put: "/v2/time_period_editions/5678").to route_to("v2/time_period_editions#update", id: "5678")
-          expect(patch: "/v2/time_period_editions/5678").to route_to("v2/time_period_editions#update", id: "5678")
         end
       end
 
