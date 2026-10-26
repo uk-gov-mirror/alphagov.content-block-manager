@@ -79,3 +79,9 @@ end
 def expect_elements_to_intersect(array1, array2)
   expect(array1.to_set).to eq(array2.to_set), "Different elements in #{array1.inspect} and #{array2}.inspect"
 end
+
+def request_for(path_parameters)
+  instance_double(ActionDispatch::Request,
+                  path_parameters: path_parameters,
+                  env: {})
+end

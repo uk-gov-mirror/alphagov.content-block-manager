@@ -60,7 +60,13 @@ Rails.application.routes.draw do
                path: "time-period-date-range"
     end
 
-    resources :documents, only: %i[index show]
+    resources :documents, only: %i[index show] do
+      constraints EditionTypeConstraints.new("V2::TimePeriodEdition") do
+        resources :editions, only: %i[edit update], controller: "time_period_editions", concerns: :reviewable do
+          resource :time_period_date_range, only: %i[edit update], controller: "time_period_date_ranges", path: "date-range"
+        end
+      end
+    end
   end
 
   resources :editions, only: %i[new create destroy], path_names: { new: ":block_type/new" } do
