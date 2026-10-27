@@ -70,7 +70,7 @@ RSpec.describe "V2 time period editions", type: :request do
 
         expected_created_edition = V2::TimePeriodEdition.last
 
-        expect(response).to redirect_to(edit_v2_time_period_edition_time_period_date_range_path(expected_created_edition))
+        expect(response).to redirect_to(edit_v2_document_edition_date_range_path(expected_created_edition.document, expected_created_edition))
         follow_redirect!
       end
     end
@@ -146,15 +146,16 @@ RSpec.describe "V2 time period editions", type: :request do
 
     context "when the edition has no associated date range" do
       let(:edition_without_date_range) { create(:v2_time_period_edition, date_range: nil, lead_organisation_id: lead_organisation.id) }
+      let(:document) { edition_without_date_range.document }
 
       before do
         allow(Organisation).to receive(:find).and_return(lead_organisation)
       end
 
       it "redirects to the edit date range page" do
-        put v2_document_edition_path(edition_without_date_range.document, edition_without_date_range), params: { edition: updated_params }
+        put v2_document_edition_path(document, edition_without_date_range), params: { edition: updated_params }
 
-        expect(response).to redirect_to(edit_v2_time_period_edition_time_period_date_range_path(edition_without_date_range))
+        expect(response).to redirect_to(edit_v2_document_edition_date_range_path(document, edition_without_date_range))
         follow_redirect!
       end
     end

@@ -2,7 +2,7 @@
 
 <% content_for :back_link,
    render("govuk_publishing_components/components/back_link", {
-     href: edit_v2_time_period_edition_time_period_date_range_path(@edition),
+     href: edit_v2_document_edition_date_range_path(@document, @edition),
    }) %>
 
 <% if @check_content_error_copy %>

@@ -33,7 +33,7 @@ RSpec.describe Edition::Show::V2::TimePeriodDateRangeSummaryCardComponent, type:
     it "renders an edit action link" do
       render_inline(component)
 
-      expected_path = edit_v2_time_period_edition_time_period_date_range_path(edition)
+      expected_path = edit_v2_document_edition_date_range_path(edition.document, edition)
       expect(page).to have_link("Edit", href: expected_path)
     end
   end

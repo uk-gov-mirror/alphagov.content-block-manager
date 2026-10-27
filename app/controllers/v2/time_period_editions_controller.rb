@@ -10,7 +10,8 @@ module V2
       @edition.build_document(block_type:)
 
       if @edition.save
-        redirect_to edit_v2_time_period_edition_time_period_date_range_path(
+        redirect_to edit_v2_document_edition_date_range_path(
+          @edition.document,
           @edition,
         )
       else
@@ -22,17 +23,17 @@ module V2
 
     def edit
       @edition = V2::TimePeriodEdition.find(params[:id])
+      @document = @edition.document
     end
 
     def update
       @edition = V2::TimePeriodEdition.find(params[:id])
+      @document = @edition.document
       @edition.assign_attributes(edition_params.except(:creator))
 
       if @edition.save
         if !has_associated_date_range
-          redirect_to edit_v2_time_period_edition_time_period_date_range_path(
-            @edition,
-          )
+          redirect_to edit_v2_document_edition_date_range_path(@document, @edition)
         else
           flash[:success] = I18n.t("v2.time_period_edition.update.success")
 

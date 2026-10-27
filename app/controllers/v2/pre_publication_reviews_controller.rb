@@ -1,6 +1,6 @@
 module V2
   class PrePublicationReviewsController < BaseController
-    before_action :set_edition
+    before_action :set_edition, :set_document
     helper_method :page_title
 
     def new; end
@@ -25,6 +25,10 @@ module V2
       edition_id = params[:time_period_edition_id]
 
       @edition = V2::Edition.find(edition_id)
+    end
+
+    def set_document
+      @document = @edition.document
     end
 
     def page_title

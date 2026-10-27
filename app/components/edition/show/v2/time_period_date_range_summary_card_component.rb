@@ -1,6 +1,7 @@
 class Edition::Show::V2::TimePeriodDateRangeSummaryCardComponent < ViewComponent::Base
   def initialize(edition:)
     @edition = edition
+    @document = edition.document
   end
 
   def title
@@ -18,7 +19,7 @@ class Edition::Show::V2::TimePeriodDateRangeSummaryCardComponent < ViewComponent
     [
       {
         label: "Edit",
-        href: edit_v2_time_period_edition_time_period_date_range_path(@edition),
+        href: edit_v2_document_edition_date_range_path(@document, @edition),
       },
     ]
   end

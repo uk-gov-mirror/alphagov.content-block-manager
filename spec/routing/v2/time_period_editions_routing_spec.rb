@@ -64,25 +64,6 @@ RSpec.describe "V2 time period editions routing", type: :routing do
           expect(post: "/v2/time_period_editions").to route_to("v2/time_period_editions#create")
         end
       end
-
-      describe "V2 Time period date ranges controller" do
-        it "does not create all default POST routes" do
-          expect(get: "v2/time_period_editions/5678/date_range").not_to be_routable
-          expect(get: "v2/time_period_editions/5678/date_range/new").not_to be_routable
-          expect(post: "v2/time_period_editions/5678/date_range").not_to be_routable
-          expect(get: "v2/time_period_editions/5678/date_range/910").not_to be_routable
-          expect(delete: "v2/time_period_editions/5678/date_range").not_to be_routable
-        end
-
-        it "routes v2/time_period_editions/:time_period_edition_id/edit/time-period-date-range/:id' to 'v2/time_period_date_ranges#edit'" do
-          expect(get: "v2/time_period_editions/5678/time-period-date-range/edit").to route_to("v2/time_period_date_ranges#edit", time_period_edition_id: "5678")
-        end
-
-        it "routes v2/time_period_editions/:time_period_edition_id/time-period-date-range/:id' to 'v2/time_period_date_ranges#update'" do
-          expect(put: "v2/time_period_editions/5678/time-period-date-range").to route_to("v2/time_period_date_ranges#update", time_period_edition_id: "5678")
-          expect(patch: "v2/time_period_editions/5678/time-period-date-range").to route_to("v2/time_period_date_ranges#update", time_period_edition_id: "5678")
-        end
-      end
     end
   end
 end

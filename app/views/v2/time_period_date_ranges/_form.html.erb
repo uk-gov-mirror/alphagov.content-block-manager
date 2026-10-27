@@ -1,6 +1,6 @@
 <%= form_with(
   model: @edition,
-  url: v2_time_period_edition_time_period_date_range_path(@edition),
+  url: v2_document_edition_date_range_path(@edition.document, @edition),
   method: @edition.persisted? ? :patch : :post,
 ) do |f| %>
   <div class="govuk-form-group">

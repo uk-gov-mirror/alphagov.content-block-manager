@@ -26,11 +26,11 @@ module V2
   private
 
     def set_edition
-      @edition = V2::TimePeriodEdition.find(params[:time_period_edition_id])
+      @edition = V2::TimePeriodEdition.find(params[:edition_id])
     end
 
     def set_document
-      @document = @edition.document
+      @document = V2::Document.find(params[:document_id])
     end
 
     def edition_params

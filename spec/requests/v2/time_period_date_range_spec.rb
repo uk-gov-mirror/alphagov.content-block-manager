@@ -5,7 +5,7 @@ RSpec.describe "V2::TimePeriodDateRange", type: :request do
     login_as(user)
   end
 
-  describe "PATCH /v2/time_period_editions/:time_period_edition_id/time-period-date-range" do
+  describe "PATCH /v2/documents/:document_id/editions/:id/date-range" do
     let(:edition) do
       create(:v2_time_period_edition, title: "Old Title", description: "Old")
     end
@@ -39,7 +39,7 @@ RSpec.describe "V2::TimePeriodDateRange", type: :request do
     context "with valid parameters" do
       context "when there is no existing date range associated with the edition" do
         it "creates and associates the date range with the edition" do
-          patch v2_time_period_edition_time_period_date_range_path(edition),
+          patch v2_document_edition_date_range_path(document, edition),
                 params: valid_date_range_attributes
 
           edition.reload
@@ -49,7 +49,7 @@ RSpec.describe "V2::TimePeriodDateRange", type: :request do
         end
 
         it "redirects to the review path with the creation success message" do
-          patch v2_time_period_edition_time_period_date_range_path(edition),
+          patch v2_document_edition_date_range_path(document, edition),
                 params: valid_date_range_attributes
 
           expect(response).to redirect_to(new_v2_time_period_edition_pre_publication_review_path(edition))
@@ -84,7 +84,7 @@ RSpec.describe "V2::TimePeriodDateRange", type: :request do
 
         it "updates the existing date range in place" do
           expect {
-            patch v2_time_period_edition_time_period_date_range_path(edition),
+            patch v2_document_edition_date_range_path(document, edition),
                   params: update_params
           }.not_to change(existing_date_range.class, :count)
 
@@ -94,7 +94,7 @@ RSpec.describe "V2::TimePeriodDateRange", type: :request do
         end
 
         it "redirects to the review path with the update success message" do
-          patch v2_time_period_edition_time_period_date_range_path(edition),
+          patch v2_document_edition_date_range_path(document, edition),
                 params: update_params
 
           expect(response).to redirect_to(new_v2_time_period_edition_pre_publication_review_path(edition))
@@ -106,20 +106,20 @@ RSpec.describe "V2::TimePeriodDateRange", type: :request do
     context "with invalid parameters" do
       it "does not update the edition" do
         original_start = edition.date_range&.start
-        patch v2_time_period_edition_time_period_date_range_path(edition),
+        patch v2_document_edition_date_range_path(document, edition),
               params: invalid_date_range_attributes
         edition.reload
         expect(edition.date_range&.start).to eq(original_start)
       end
 
       it "returns unprocessable content status" do
-        patch v2_time_period_edition_time_period_date_range_path(edition),
+        patch v2_document_edition_date_range_path(document, edition),
               params: invalid_date_range_attributes
         expect(response).to have_http_status(:unprocessable_content)
       end
 
       it "renders the edit template" do
-        patch v2_time_period_edition_time_period_date_range_path(edition),
+        patch v2_document_edition_date_range_path(document, edition),
               params: invalid_date_range_attributes
         expect(response).to render_template(:edit)
       end
