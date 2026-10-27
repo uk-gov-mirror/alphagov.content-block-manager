@@ -69,7 +69,7 @@ RSpec.describe V2::WorkflowCompletionService do
         it "should return the pre publication review path and an alert flash message" do
           described_class.new(edition, "publish").call => { path:, flash: }
 
-          expect(path).to eq("/v2/time_period_editions/123/pre-publication-reviews/new")
+          expect(path).to eq("/v2/documents/567/editions/123/pre-publication-reviews/new")
           expect(flash).to eq({ alert: error_message })
         end
       end

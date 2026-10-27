@@ -22,13 +22,11 @@ module V2
   private
 
     def set_edition
-      edition_id = params[:time_period_edition_id]
-
-      @edition = V2::Edition.find(edition_id)
+      @edition = V2::Edition.find(params[:edition_id])
     end
 
     def set_document
-      @document = @edition.document
+      @document = V2::Document.find(params[:document_id])
     end
 
     def page_title

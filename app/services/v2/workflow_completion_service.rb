@@ -36,7 +36,7 @@ module V2
           V2::PublishEditionService.new.call(@edition)
         rescue V2::PublishEditionService::PublishingFailureError => e
           return {
-            path: new_v2_time_period_edition_pre_publication_review_path(@edition),
+            path: new_v2_document_edition_pre_publication_review_path(@edition.document, @edition),
             flash: { alert: e.message },
           }
         end

@@ -37,7 +37,7 @@ module V2
         else
           flash[:success] = I18n.t("v2.time_period_edition.update.success")
 
-          redirect_to new_v2_time_period_edition_pre_publication_review_path(@edition)
+          redirect_to new_v2_document_edition_pre_publication_review_path(@document, @edition)
         end
       else
         render :edit, status: :unprocessable_content

@@ -169,7 +169,7 @@ RSpec.describe "V2 time period editions", type: :request do
 
       it "redirects to the pre publication review page with a success message" do
         put v2_document_edition_path(edition_with_date_range.document, edition_with_date_range), params: { edition: updated_params }
-        expect(response).to redirect_to(new_v2_time_period_edition_pre_publication_review_path(edition_with_date_range))
+        expect(response).to redirect_to(new_v2_document_edition_pre_publication_review_path(edition_with_date_range.document, edition_with_date_range))
         follow_redirect!
         expect(response.body).to include(I18n.t("v2.time_period_edition.update.success"))
       end

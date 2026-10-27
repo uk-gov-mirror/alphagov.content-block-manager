@@ -52,7 +52,7 @@ RSpec.describe "V2::TimePeriodDateRange", type: :request do
           patch v2_document_edition_date_range_path(document, edition),
                 params: valid_date_range_attributes
 
-          expect(response).to redirect_to(new_v2_time_period_edition_pre_publication_review_path(edition))
+          expect(response).to redirect_to(new_v2_document_edition_pre_publication_review_path(document, edition))
           expect(flash[:success]).to eq(I18n.t("v2.time_period_edition.create.success"))
         end
       end
@@ -97,7 +97,7 @@ RSpec.describe "V2::TimePeriodDateRange", type: :request do
           patch v2_document_edition_date_range_path(document, edition),
                 params: update_params
 
-          expect(response).to redirect_to(new_v2_time_period_edition_pre_publication_review_path(edition))
+          expect(response).to redirect_to(new_v2_document_edition_pre_publication_review_path(document, edition))
           expect(flash[:success]).to eq(I18n.t("v2.time_period_edition.update.success"))
         end
       end

@@ -43,6 +43,16 @@ RSpec.describe "V2 time period editions routing", type: :routing do
           expect(patch: "/v2/documents/1234/editions/5678/date-range").to route_to("v2/time_period_date_ranges#update", document_id: "1234", edition_id: "5678")
         end
       end
+
+      describe "V2 Pre publication review controller" do
+        it "routes 'v2/documents/:document_id/editions/:id/pre-publication-reviews/new' to 'v2/pre_publication_reviews#new'" do
+          expect(get: "/v2/documents/1234/editions/5678/pre-publication-reviews/new").to route_to("v2/pre_publication_reviews#new", document_id: "1234", edition_id: "5678")
+        end
+
+        it "routes 'v2/documents/:document_id/editions/:id/pre-publication-reviews' to 'v2/pre_publication_reviews#create'" do
+          expect(post: "/v2/documents/1234/editions/5678/pre-publication-reviews").to route_to("v2/pre_publication_reviews#create", document_id: "1234", edition_id: "5678")
+        end
+      end
     end
 
     describe "Un-nested time period edition routes" do
