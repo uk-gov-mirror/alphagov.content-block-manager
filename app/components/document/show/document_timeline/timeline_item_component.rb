@@ -33,7 +33,7 @@ private
         version.state.capitalize
       end
     when "scheduled"
-      I18n.t("timeline_item.title.scheduled", datetime_string: version.item.scheduled_publication.to_fs(:long_ordinal_with_at))
+      I18n.t("timeline_item.title.scheduled", datetime_string: datetime_string)
     when "draft_complete"
       I18n.t("timeline_item.title.draft_complete")
     when "awaiting_review"
@@ -42,6 +42,18 @@ private
       I18n.t("timeline_item.title.awaiting_factcheck")
     else
       "#{version.item.block_type.humanize} #{version.state}"
+    end
+  end
+
+  def datetime_string
+    # For V1 we need a bit of logic here to handle historic Version/Domain Event pairs created before the update to DomainEvent metadata population
+    if domain_event.metadata.key?("scheduled_publication")
+      "on #{domain_event.metadata['scheduled_publication']}"
+    elsif version.item.scheduled_publication
+      "on #{version.item.scheduled_publication.to_fs(:long_ordinal_with_at)}"
+    else
+      # Backup to prevent exception for Version/DomainEvent pairs which would have been affected by the bug caused by manual publishing
+      ""
     end
   end
 

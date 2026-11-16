@@ -142,6 +142,10 @@ And("I see that the edition was published successfully") do
   expect(page).to have_content(I18n.t("v2.edition.publish.success"))
 end
 
+And("the updated title should be shown") do
+  expect(page).to have_content(updated_details.title)
+end
+
 And("I see that the document's edition and date range have been updated with the details that I entered") do
   expect(page).to have_content(updated_details.title)
   expect(page).to have_content(updated_details.date_range[:start].strftime("%-d %B %Y"))

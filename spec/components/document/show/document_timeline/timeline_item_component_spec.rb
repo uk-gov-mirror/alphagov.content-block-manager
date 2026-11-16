@@ -529,16 +529,56 @@ RSpec.describe Document::Show::DocumentTimeline::TimelineItemComponent, type: :c
   context "when the version is in the 'scheduled' state" do
     before do
       version.state = "scheduled"
-      edition.scheduled_publication = Time.zone.parse("2026-01-01 13:05")
     end
 
-    it "sets the #title to be 'Scheduled for publishing on {string}'" do
-      render_inline component
+    context "when scheduled_publication is present in DomainEvent" do
+      before do
+        edition.scheduled_publication = nil
+        allow_any_instance_of(DomainEvent).to receive(:metadata).and_return({ "scheduled_publication" => Time.zone.parse("2026-01-01 13:05").to_fs(:long_ordinal_with_at) })
+      end
 
-      expect(page).to have_css(".timeline__title") do
-        expect(page).to have_content(
-          I18n.t("timeline_item.title.scheduled", datetime_string: "1 January 2026 at 1:05pm"),
-        )
+      it "sets the #title to be 'Scheduled for publishing {string}'" do
+        render_inline component
+
+        expect(page).to have_css(".timeline__title") do
+          expect(page).to have_content(
+            I18n.t("timeline_item.title.scheduled", datetime_string: "on 1 January 2026 at 1:05pm"),
+          )
+        end
+      end
+    end
+
+    context "when scheduled_publication is present in the Edition" do
+      before do
+        edition.scheduled_publication = Time.zone.parse("2026-01-01 13:05")
+      end
+
+      it "sets the #title to be 'Scheduled for publishing {string}'" do
+        render_inline component
+
+        expect(page).to have_css(".timeline__title") do
+          expect(page).to have_content(
+            I18n.t("timeline_item.title.scheduled", datetime_string: "on 1 January 2026 at 1:05pm"),
+          )
+        end
+      end
+    end
+
+    context "when scheduled_publication is not present" do
+      before do
+        edition.scheduled_publication = nil
+        edition.scheduled_publication = nil
+        allow_any_instance_of(DomainEvent).to receive(:metadata).and_return({})
+      end
+
+      it "sets the #title to be 'Scheduled for publishing'" do
+        render_inline component
+
+        expect(page).to have_css(".timeline__title") do
+          expect(page).to have_content(
+            I18n.t("timeline_item.title.scheduled", datetime_string: nil),
+          )
+        end
       end
     end
   end

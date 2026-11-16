@@ -39,6 +39,20 @@ When("I click to edit the schedule") do
   find("a", text: "Edit schedule").click
 end
 
+When("I click to edit the draft") do
+  find("a", text: "Edit draft").click
+end
+
+And("I proceed to selecting the publish date") do
+  4.times do
+    click_save_and_continue
+  end
+end
+
+And("the timeline item for the schedule publication should still be shown") do
+  expect(page).to have_content(@future_date.strftime("%-d %B %Y at%l:%M%P"))
+end
+
 When("I enter an invalid date") do
   fill_in "Year", with: "01"
 end

@@ -398,7 +398,7 @@ en:
   timeline_item:
     title:
       published: "%{block_type} created"
-      scheduled: "Scheduled for publishing on %{datetime_string}"
+      scheduled: "Scheduled for publishing %{datetime_string}"
       draft_complete: "Draft completed"
       awaiting_review: "Sent to review"
       awaiting_factcheck: "Sent to fact check"
@@ -461,7 +461,7 @@ en:
           status: Status
       new:
         title: Select a content block
-        
+
     time_period_edition:
       new:
         title: 'Create time period'

@@ -5,7 +5,7 @@ Feature: Schedule a content object
     And a pension content block has been created
 
   @disable-sidekiq-test-mode
-  Scenario: GDS Editor immediately publishes a scheduled content object
+  Scenario: GDS Editor immediately publishes a scheduled content object through editing the schedule
     Given I have scheduled a change for 7 days in the future
     When I click to view the content block
     And I click to edit the schedule
@@ -14,6 +14,20 @@ Feature: Schedule a content object
     When I click to view the content block
     Then the published state of the object should be shown
     And there should be no jobs scheduled
+
+  @disable-sidekiq-test-mode
+  Scenario: GDS Editor immediately publishes a scheduled content object through editing the draft
+    Given I have scheduled a change for 7 days in the future
+    When I click to view the content block
+    And I click to edit the draft
+    And I update the edition title
+    And I proceed to selecting the publish date
+    And I choose to publish the change now
+    When I review and confirm I have checked the content
+    When I click to view the content block
+    Then the published state of the object should be shown
+    And the updated title should be shown
+    And the timeline item for the schedule publication should still be shown
 
   @disable-sidekiq-test-mode
   Scenario: GDS Editor reschedules a content object
